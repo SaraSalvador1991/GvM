@@ -8,9 +8,9 @@ The density considered here is proportional to
 exp(kappa1 * cos(theta - mu1) + kappa2 * cos(2 * (theta - mu2)))
 ```
 
-Here, `mu1` and `mu2` are angular location parameters, and `kappa1` and `kappa2` are non-negative concentration parameters. Angles are expressed in radians.
+Here, `mu1` and `mu2` are angular location parameters, and `kappa1` and `kappa2` are strictly positive concentration parameters. Angles are expressed in radians.
 
-For `kappa2 > 0`, the modality regions are represented using:
+The modality regions are represented using:
 
 ```text
 rho   = kappa1 / (4 * kappa2)
