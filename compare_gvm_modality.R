@@ -6,7 +6,7 @@ source("plot_gvm.R")
 # Compute the region grid once and reuse it for both output formats.
 # mu1 and kappa2 are explicit: rho and delta alone do not fix the density.
 mu1 <- pi
-kappa2 <- 1/6  # Estimated from the density scales in the reference figure.
+kappa2 <- 1.5  # Common concentration for all nine points.
 regions <- plot_rho_delta(draw = FALSE)
 points_table <- data.frame(
   label = LETTERS[1:9],
@@ -15,11 +15,8 @@ points_table <- data.frame(
   delta_label = rep(c("3*pi/4", "pi/2", "pi/4"), 3)
 )
 
-# Use higher concentrations for A and E to make their two modes easier to see.
-# rho and delta remain identical to the reference figure.
+# Use the same concentration for all nine points.
 points_table$kappa2 <- kappa2
-points_table$kappa2[points_table$label == "A"] <- 0.75
-points_table$kappa2[points_table$label == "E"] <- 1.5
 points_table$bimodal <- mapply(is_bimodal, points_table$rho, points_table$delta)
 
 plot_comparison <- function() {
