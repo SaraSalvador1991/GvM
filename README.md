@@ -36,6 +36,7 @@ Only base R is required; no additional R packages are needed.
 Download and extract the repository, then open `GvM.Rproj` in RStudio. This automatically sets the working directory to the project folder, regardless of its name or location. Then run the examples below in the R console.
 
 If you use R without RStudio, set the working directory to the folder containing the downloaded R files before running the examples. The scripts load their dependencies and save their output relative to this working directory.
+
 Plot one density:
 
 ```r
