@@ -27,7 +27,7 @@ Grey indicates the bimodal region; white indicates the unimodal region. The tran
 | `gvm_normalizing_constant.R` | Defines `G0()`, the normalising constant computed using a Fourier–Bessel series. The density is normalised by dividing its exponential term by `2 * pi * G0()`. The stopping rule uses the unsigned series coefficient to avoid premature termination on negative or nearly zero cosine terms. |
 | `plot_gvm.R` | Defines `plot_gvm(mu1, mu2, kappa1, kappa2)`. It draws a single normalised GvM density for the supplied parameters and returns the density function invisibly. It loads the normalising-constant file automatically. |
 | `plot_rho_delta.R` | Defines `is_bimodal()` and `plot_rho_delta()`. It classifies parameter pairs using a quartic-root criterion, draws the grey/white regions, and returns the computed grid invisibly. Use `draw = FALSE` to compute the grid without drawing it. |
-| `compare_gvm_modality.R` | Reuses the region grid and the density plotting function to create a combined figure: eight labelled points in the parameter plane, followed by their corresponding densities. It saves PNG and PDF versions and checks density normalisation and the number of modes on a circular grid. |
+| `compare_gvm_modality.R` | Reuses the region grid and the density plotting function to create a combined figure: nine labelled points in the parameter plane, followed by their corresponding densities. It saves PNG and PDF versions and checks density normalisation and the number of modes on a circular grid. |
 
 ## Run the examples
 
@@ -57,7 +57,7 @@ Generate the combined comparison:
 source("compare_gvm_modality.R")
 ```
 
-The comparison uses three bimodal examples at `rho = 0.2`; two unimodal examples and one bimodal example at `rho = 0.7`; and two unimodal examples at `rho = 1.2`. It fixes `mu1 = pi` and `kappa2 = 0.4`, then derives `mu2` and `kappa1` from each selected `(rho, delta)` pair.
+The comparison selects three points at `rho = 0.3` in the grey (bimodal) region; three points at `rho = 0.75`, spanning the white (unimodal) and grey (bimodal) regions; and three points at `rho = 1.5` in the white (unimodal) region. Each point is shown alongside its corresponding GvM density.
 
 The resulting files are `compare_gvm_modality.png` and `compare_gvm_modality.pdf`.
 

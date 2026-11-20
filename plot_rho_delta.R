@@ -11,7 +11,7 @@ is_bimodal <- function(rho, delta, tolerance = 1e-7) {
 
 plot_rho_delta <- function(regions = NULL, draw = TRUE, main = "") {
   if (is.null(regions)) {
-    rho <- seq(0.005, 1.25, length.out = 300)
+    rho <- seq(0.005, 2, length.out = 300)
     delta <- seq(0.001, pi - 0.001, length.out = 400)
     regions <- list(rho = rho, delta = delta,
                     bimodal = outer(rho, delta, Vectorize(is_bimodal)))
@@ -21,7 +21,7 @@ plot_rho_delta <- function(regions = NULL, draw = TRUE, main = "") {
           col = c("white", "grey75"), breaks = c(-0.5, 0.5, 1.5),
           xlab = expression(rho), ylab = expression(delta),
           xaxt = "n", yaxt = "n", main = main)
-    axis(1, at = c(0.25, 0.5, 0.75, 1, 1.25))
+    axis(1, at = c(0.5, 1, 1.5, 2))
     axis(2, at = c(0, pi/4, pi/2, 3*pi/4, pi),
          labels = expression(0, pi/4, pi/2, 3*pi/4, pi))
   }

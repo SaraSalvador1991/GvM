@@ -1,21 +1,32 @@
-# Combine the rho-delta region plot with eight corresponding GvM plots.
+# Combine the rho-delta region plot with nine corresponding GvM plots.
 # Run from the GvM folder: source("compare_gvm_modality.R")
 source("plot_rho_delta.R")
 source("plot_gvm.R")
 
 # Compute the region grid once and reuse it for both output formats.
+# mu1 and kappa2 are explicit: rho and delta alone do not fix the density.
+mu1 <- pi
+kappa2 <- 1/6  # Estimated from the density scales in the reference figure.
 regions <- plot_rho_delta(draw = FALSE)
 points_table <- data.frame(
-  label = LETTERS[1:8],
-  rho = c(rep(0.20, 3), rep(0.70, 3), rep(1.20, 2)),
-  delta = c(0.40, 1.50, 2.60, 0.65, 1.57, 2.50, 0.85, 2.25)
+  label = LETTERS[1:9],
+  rho = rep(c(0.3, 0.75, 1.5), each = 3),
+  delta = rep(c(3*pi/4, pi/2, pi/4), 3),
+  delta_label = rep(c("3*pi/4", "pi/2", "pi/4"), 3)
 )
+
+# Use higher concentrations for A and E to make their two modes easier to see.
+# rho and delta remain identical to the reference figure.
+points_table$kappa2 <- kappa2
+points_table$kappa2[points_table$label == "A"] <- 0.75
+points_table$kappa2[points_table$label == "E"] <- 1.5
 points_table$bimodal <- mapply(is_bimodal, points_table$rho, points_table$delta)
 
 plot_comparison <- function() {
   old <- par(no.readonly = TRUE)
   on.exit({layout(1); par(old)}, add = TRUE)
-  layout(rbind(rep(1, 4), 2:5, 6:9), heights = c(1.8, 1, 1))
+  layout(rbind(rep(1, 3), c(2, 5, 8), c(3, 6, 9), c(4, 7, 10)),
+         heights = c(1.8, 1, 1, 1))
   par(mar = c(3.6, 4, 3.4, 1), mgp = c(2.3, 0.7, 0))
   plot_rho_delta(regions, main = "GvM: parameter regions and corresponding densities")
   points(points_table$rho, points_table$delta, pch = 20)
@@ -27,21 +38,20 @@ plot_comparison <- function() {
     par(mar = c(3.4, 3.6, 3.1, 0.8), cex.main = 0.95)
     p <- points_table[i, ]
     densities[[i]] <- plot_gvm(
-      mu1 = pi, mu2 = (pi - p$delta) %% pi,
-      kappa1 = 4*p$rho*0.4, kappa2 = 0.4,
-      main = paste(p$label, " | ", if (p$bimodal) "Bimodal" else "Unimodal"),
-      interval = c(-pi/2, 3*pi/2)
+      mu1 = mu1, mu2 = (mu1 - p$delta) %% pi,
+      kappa1 = 4*p$rho*p$kappa2, kappa2 = p$kappa2,
+      main = sprintf("Point %s = (%.2g, %s)", p$label, p$rho, p$delta_label),
+      interval = c(0, 2*pi)
     )
-    mtext(sprintf("rho = %.2f; delta = %.2f", p$rho, p$delta),
-          side = 3, line = 0.25, cex = 0.7)
+
   }
   invisible(densities)
 }
 
-png("compare_gvm_modality.png", width = 2400, height = 2200, res = 200)
+png("compare_gvm_modality.png", width = 2200, height = 2700, res = 200)
 densities <- plot_comparison()
 dev.off()
-pdf("compare_gvm_modality.pdf", width = 12, height = 11)
+pdf("compare_gvm_modality.pdf", width = 11, height = 13.5)
 plot_comparison()
 dev.off()
 if (interactive()) plot_comparison()
