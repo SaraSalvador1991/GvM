@@ -3,7 +3,8 @@
 
 # Analytic classification from Sections 2.1-2.2 of Salvador and Gatto (2021).
 # Count proper maxima, not polynomial roots with their algebraic multiplicity.
-# Points within numerical tolerance of a transition are treated as unimodal.
+# Special-direction rho thresholds are exact comparisons.
+# Generic transitions use a numerical tolerance.
 is_bimodal <- function(rho, delta, tolerance = 1e-10) {
   stopifnot(length(rho) == 1L, is.finite(rho), rho > 0,
             length(delta) == 1L, is.finite(delta),
@@ -11,11 +12,11 @@ is_bimodal <- function(rho, delta, tolerance = 1e-10) {
   delta <- delta %% pi
 
   # delta = 0 or pi/2: the double root x = 0 must be mapped back to angles.
-  if (abs(sin(2*delta)) <= tolerance) return(rho < 1 - tolerance)
+  if (abs(sin(2*delta)) <= tolerance) return(rho < 1)
 
   # delta = pi/4 or 3*pi/4: two double roots; one leaves [-1, 1]
   # above rho = 1/2. At equality, merged angles do not give a second maximum.
-  if (abs(cos(2*delta)) <= tolerance) return(rho < 0.5 - tolerance)
+  if (abs(cos(2*delta)) <= tolerance) return(rho < 0.5)
 
   if (rho < 0.5) return(TRUE)
   if (rho >= 1) return(FALSE)
@@ -26,7 +27,7 @@ is_bimodal <- function(rho, delta, tolerance = 1e-10) {
   # rather than a second proper maximum. No quartic root solver is needed.
   left <- 4*(1 - rho^2)^3
   right <- 27*rho^4*sin(2*delta)^2
-  left - right > tolerance * max(1, left, right)
+  left - right > tolerance
 }
 
 plot_rho_delta <- function(regions = NULL, draw = TRUE, main = "") {

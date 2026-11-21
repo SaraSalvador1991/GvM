@@ -63,7 +63,7 @@ The resulting files are `compare_gvm_modality.png` and `compare_gvm_modality.pdf
 
 ## Numerical scope
 
-The region plot uses a finite grid, so its displayed boundary is an approximation. Classification uses the analytic modality criteria rather than numerical quartic roots. The special cases `delta = 0, pi/4, pi/2, 3*pi/4` are handled explicitly. At `rho = 1/2` and `delta = pi/4` or `3*pi/4`, coincident angular solutions do not produce a second maximum; these transition points are classified as unimodal. Generic transition points are also unimodal: a stationary inflection is not counted as a mode. A numerical tolerance of `1e-10` is used near transitions. The mode-count check is also grid-based. The unscaled Bessel series is intended for moderate concentrations and may overflow for large parameter values.
+The region plot uses a finite grid, so its displayed boundary is an approximation. Classification uses the analytic modality criteria rather than numerical quartic roots. The special cases `delta = 0, pi/4, pi/2, 3*pi/4` are handled explicitly. At `rho = 1/2` and `delta = pi/4` or `3*pi/4`, coincident angular solutions do not produce a second maximum; these transition points are classified as unimodal. Generic transition points are also unimodal: a stationary inflection is not counted as a mode. A numerical tolerance of `1e-10` identifies special angular directions and generic transitions. For the special directions, rho is compared directly with the exact thresholds `1` and `0.5`, without subtracting a tolerance. The mode-count check is also grid-based. The unscaled Bessel series is intended for moderate concentrations and may overflow for large parameter values.
 
 ![Modality regions and corresponding GvM densities](compare_gvm_modality.png)
 
